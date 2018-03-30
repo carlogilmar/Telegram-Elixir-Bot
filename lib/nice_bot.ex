@@ -1,18 +1,28 @@
 defmodule NiceBot do
-  @moduledoc """
-  Documentation for NiceBot.
-  """
+  use Application
 
-  @doc """
-  Hello world.
+  require Logger
 
-  ## Examples
+  import Supervisor.Spec
 
-      iex> NiceBot.hello
-      :world
+  def start(_type, _args) do
+    token = Telex.Config.get(:nice_bot, :token)
 
-  """
-  def hello do
-    :world
+    children = [
+      supervisor(Telex, []),
+      supervisor(NiceBot.Bot, [:polling, token])
+    ]
+
+    opts = [strategy: :one_for_one, name: NiceBot]
+
+    case Supervisor.start_link(children, opts) do
+      {:ok, _} = ok ->
+        Logger.info("Starting!!")
+        ok
+
+      error ->
+        Logger.error("Failll!!!")
+        error
+    end
   end
 end
