@@ -18,4 +18,10 @@ defmodule NiceBot.Bot do
     answer(" 😎  Holiiiii Como estás? ")
   end
 
+  def handle({:text, text, msg}, _name, _extra) do
+    Logger.info("::Bot Contestando")
+    IO.inspect text
+    answer(" 😏 que onda 🐕 ? ")
+  end
+
 end
