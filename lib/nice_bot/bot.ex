@@ -19,9 +19,19 @@ defmodule NiceBot.Bot do
   end
 
   def handle({:text, text, msg}, _name, _extra) do
-    Logger.info("::Bot Contestando")
+    IO.puts "Bot respondiendo..."
     IO.inspect text
-    answer(" 😏 que onda 🐕 ? ")
+    #IO.inspect msg
+    send_to_arduino(text)
+    a = answer(" Bot de Elixir desde Raspberrypi Respondiendo")
   end
+
+  def send_to_arduino( message ) do
+    uart = NiceBot.Uart.init_uart()
+    manage_led( message, uart )
+  end
+
+  def manage_led("1", pid), do: Nerves.UART.write(pid, "1")
+  def manage_led(_, pid), do: Nerves.UART.write(pid, "0")
 
 end
