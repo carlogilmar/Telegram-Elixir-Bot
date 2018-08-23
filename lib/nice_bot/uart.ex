@@ -18,7 +18,11 @@ defmodule NiceBot.Uart do
   end
 
   def handle_call( :init_uart, _, state ) do
+    IO.puts "Getting uart pid"
     {:ok, uart} = Nerves.UART.start_link
+    IO.puts "Open port..."
+    port = Nerves.UART.open( uart, "ttyACM0", speed: 9600, active: false)
+    IO.inspect port
     {:reply, uart, state}
   end
 
