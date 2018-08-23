@@ -10,6 +10,7 @@ defmodule NiceBot do
 
     children = [
       supervisor(Telex, []),
+      supervisor(NiceBot.Uart, []),
       supervisor(NiceBot.Bot, [:polling, token])
     ]
 
@@ -18,6 +19,7 @@ defmodule NiceBot do
     case Supervisor.start_link(children, opts) do
       {:ok, _} = ok ->
         Logger.info("Starting!!")
+        IO.puts "Corre!"
         ok
 
       error ->
