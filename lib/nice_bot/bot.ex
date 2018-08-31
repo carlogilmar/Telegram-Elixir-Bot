@@ -32,6 +32,8 @@ defmodule NiceBot.Bot do
   end
 
   def manage_led("1", pid), do: Nerves.UART.write(pid, "1")
+  def manage_led("2", pid), do: Nerves.UART.write(pid, "2")
+  def manage_led("3", pid), do: Nerves.UART.write(pid, "3")
   def manage_led(_, pid), do: Nerves.UART.write(pid, "0")
 
 end
